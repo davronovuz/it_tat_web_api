@@ -60,3 +60,83 @@ class Portfolio(Utility):
 
     def __str__(self):
         return self.name
+
+class CourseLessonVideo(Utility):
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, blank=True, related_name="lesson_videos",
+                               verbose_name="Kurs")
+    video = models.FileField(upload_to='lesson_videos/', null=True, blank=True, verbose_name="Video",
+                             validators=[FileExtensionValidator(allowed_extensions=['mp4', 'mkv', 'avi'])])
+
+    class Meta:
+        verbose_name = "Video"
+        verbose_name_plural = "Video"
+
+    def __str__(self):
+        return f"{self.video}"
+
+class FeedbackMentor(Utility):
+    full_name = models.CharField(max_length=255, null=False, blank=False, verbose_name="Ism")
+    video = models.FileField(upload_to='feedback_videos/', null=True, blank=True, verbose_name="Video")
+    couse = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, blank=True, related_name="feedbacks",
+                               verbose_name="Kurs")
+    mentor = models.ForeignKey(Mentor, on_delete=models.SET_NULL, null=True, blank=True, related_name="feedbacks",
+                               verbose_name="Mentor")
+
+    class Meta:
+        verbose_name = "Feedback"
+        verbose_name_plural = "Feedbacklar"
+
+    def __str__(self):
+        return f"{self.full_name}"
+
+class Registration(Utility):
+    first_name = models.CharField(max_length=255, null=False, blank=False, verbose_name="Ism")
+    last_name = models.CharField(max_length=255, null=False, blank=False, verbose_name="Familiya")
+    phone_number = models.CharField(max_length=20, null=False, blank=False, verbose_name="Telefon raqami")
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, blank=True, related_name="registrations",
+                               verbose_name="Kurs")
+
+    class Meta:
+        verbose_name = "Registratsiya"
+        verbose_name_plural = "Registratsiyalar"
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+class FAQ(Utility):
+    title = models.CharField(max_length=255, null=False, blank=False, verbose_name="Savol")
+    description = models.TextField(null=False, blank=False, verbose_name="Javob")
+
+    class Meta:
+        verbose_name = "FAQ"
+        verbose_name_plural = "FAQ"
+
+    def __str__(self):
+        return f"{self.title}"
+class ProgramRequest(Utility):
+    name = models.CharField(max_length=255, null=False, blank=False, verbose_name="Ism")
+    phone_number = models.CharField(max_length=20, null=False, blank=False, verbose_name="Telefon raqami")
+
+    class Meta:
+        verbose_name = "Program tayyorlash"
+        verbose_name_plural = "Program tayyorlash"
+
+    def __str__(self):
+        return f"{self.name}"
+
+class Technology(Utility):
+    title = models.CharField(max_length=255, null=False, blank=False, verbose_name="Teg")
+    image = models.ImageField(upload_to='technology_images/', null=True, blank=True, verbose_name="Teg rasmi",
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])])
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, blank=True, related_name="technologies",
+                               verbose_name="Kurs")
+
+    class Meta:
+        verbose_name = "Teg"
+        verbose_name_plural = "Teglar"
+
+    def __str__(self):
+        return f"{self.title}"
+
+
+

@@ -1,10 +1,11 @@
 from django.contrib import admin
-from .models import Course, Portfolio, Mentor
+from .models import Course, Portfolio, Mentor, CourseLessonVideo, FeedbackMentor, Registration, ProgramRequest, FAQ, \
+    Technology
 
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ['title','description', 'image', 'weekly_hours', 'duration_moths', 'total_hours', 'price_per_moths', 'discount', 'user_ai', 'start_hour']
+    list_display = ['title', 'description', 'image', 'weekly_hours', 'duration_moths', 'total_hours', 'price_per_moths', 'discount', 'user_ai', 'start_hour']
     list_filter = ['user_ai', 'start_hour']
     search_fields = ['title', 'description']
     list_display_links = ['title', 'description']
@@ -20,7 +21,14 @@ class PortfolioAdmin(admin.ModelAdmin):
 
 @admin.register(Mentor)
 class MentorAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'image', 'courses', 'description', 'experience_years', 'student_count']
+    list_display = ['first_name', 'last_name', 'image', 'get_courses', 'description', 'experience_years', 'student_count']
     list_filter = ['experience_years', 'student_count']
     search_fields = ['first_name', 'last_name', 'description']
-    list_display_links = ['first_name', 'last_name', 'image', 'courses', 'description']
+    list_display_links = ['first_name', 'last_name', 'image', 'description']
+
+    def get_courses(self, obj):
+        return ", ".join([course.title for course in obj.courses.all()])
+
+    get_courses.short_description = "Kurslar"
+
+
