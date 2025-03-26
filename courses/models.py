@@ -57,83 +57,83 @@ class Portfolio(Utility):
         return self.name
 
 
-#
-# class Technology(Utility):
-#     title=models.CharField(max_length=255,null=True,blank=True,verbose_name="title")
-#     image=models.ImageField(upload_to="Technoly/",null=True,blank=True)
-#     course=models.ForeignKey(Course,on_delete=models.CASCADE,null=True,blank=True)
-#
-#     class Meta:
-#         verbose_name="Technology"
-#         verbose_name_plural="Technologies"
-#
-#
-#
-#
-#
-#
-#
-# class Registration(Utility):
-#     name=models.CharField(max_length=255,null=False,blank=False,verbose_name="Ismn")
-#     phone_number=models.CharField(max_length=17, null=False,blank=False,unique=True)
-#     course=models.ForeignKey(Course,on_delete=models.CASCADE,null=False,blank=False)
-#
-#
-#     class Meta:
-#         verbose_name="Registration"
-#         verbose_name_plural="Registration"
-#
-#     def __str__(self):
-#         return self.name
-#
-#
-    #
-    # class FeedbackMentor(Utility):
-    #     full_name=models.CharField(max_length=255,null=False,blank=False,verbose_name="Ism")
-    #     video=models.FileField(upload_to="feedback_video/",null=True,blank=True,verbose_name="VIdeolar")
-    #     course=models.ForeignKey(Course,on_delete=models.SET_NULL,null=True,blank=True,verbose_name="Kurs")
-    #     mentor=models.ForeignKey(Mentor,on_delete=models.SET_NULL,null=True,blank=True)
-    #
-    #     class Meta:
-    #         verbose_name="Feedback"
-    #         verbose_name_plural="Feedback"
-    #     def __str__(self):
-    #         return self.full_name
-    #
-    # class FAQ(Utility):
-    #     title=models.CharField(max_length=255,null=False,blank=False,verbose_name="title")
-    #     description=models.TextField(null=False,blank=False,verbose_name="Malumot")
-    #
-    #     class Meta:
-    #         verbose_name="FAQ"
-    #         verbose_name_plural="FAQ"
-    #     def __str__(self):
-    #         return self.title
-    #
-    # class ProgramRequest(Utility):
-    #     name=models.CharField(max_length=255,null=False,blank=False)
-    #     phone_number=models.CharField(max_length=17,null=False,blank=False,unique=True)
-    #
-    #
-    #     class Meta:
-    #         verbose_name="ProgramRequest"
-    #         verbose_name_plural = "ProgramRequest"
-    #
-    #     def __str__(self):
-    #         return self.name
-    #
-    #
-    # class Course_lesson_video(Utility):
-    #     video=models.FileField(upload_to="course_lesson/",null=True,blank=True,verbose_name="videolar")
-    #     course=models.ForeignKey(Course,on_delete=models.CASCADE,null=True,blank=True)
-    #
-    #
-    #     class Meta:
-    #         verbose_name="Course_lesson_video"
-    #         verbose_name_plural="Course_lesson_video"
-    #
-    #     def __str__(self):
-    #         return self.video
+
+class Technology(Utility):
+    title=models.CharField(max_length=255,null=True,blank=True,verbose_name="title")
+    image=models.ImageField(upload_to="Technoly/",null=True,blank=True)
+    course=models.ForeignKey(Course,on_delete=models.CASCADE,null=True,blank=True)
+
+    class Meta:
+        verbose_name="Technology"
+        verbose_name_plural="Technologies"
+
+
+
+
+
+
+
+class Registration(Utility):
+    name=models.CharField(max_length=255,null=False,blank=False,verbose_name="Ismn")
+    phone_number=models.CharField(max_length=17, null=False,blank=False,unique=True)
+    course=models.ForeignKey(Course,on_delete=models.CASCADE,null=False,blank=False)
+
+
+    class Meta:
+        verbose_name="Registration"
+        verbose_name_plural="Registration"
+
+    def __str__(self):
+        return self.name
+
+
+
+class FeedbackMentor(Utility):
+    full_name=models.CharField(max_length=255,null=False,blank=False,verbose_name="Ism")
+    video=models.FileField(upload_to="feedback_video/",null=True,blank=True,verbose_name="VIdeolar")
+    course=models.ForeignKey(Course,on_delete=models.SET_NULL,null=True,blank=True,verbose_name="Kurs")
+    mentor=models.ForeignKey(Mentor,on_delete=models.SET_NULL,null=True,blank=True)
+
+    class Meta:
+        verbose_name="Feedback"
+        verbose_name_plural="Feedback"
+    def __str__(self):
+        return self.full_name
+
+class FAQ(Utility):
+    title=models.CharField(max_length=255,null=False,blank=False,verbose_name="title")
+    description=models.TextField(null=False,blank=False,verbose_name="Malumot")
+
+    class Meta:
+        verbose_name="FAQ"
+        verbose_name_plural="FAQ"
+    def __str__(self):
+        return self.title
+
+class ProgramRequest(Utility):
+    name=models.CharField(max_length=255,null=False,blank=False)
+    phone_number=models.CharField(max_length=17,null=False,blank=False,unique=True)
+
+
+    class Meta:
+        verbose_name="ProgramRequest"
+        verbose_name_plural = "ProgramRequest"
+
+    def __str__(self):
+        return self.name
+
+
+class Course_lesson_video(Utility):
+    video=models.FileField(upload_to="course_lesson/",null=True,blank=True,verbose_name="videolar")
+    course=models.ForeignKey(Course,on_delete=models.CASCADE,null=True,blank=True)
+
+
+    class Meta:
+        verbose_name="Course_lesson_video"
+        verbose_name_plural="Course_lesson_video"
+
+    def __str__(self):
+        return self.video
 
 
 

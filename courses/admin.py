@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course, Mentor, Portfolio
+from .models import Course, Mentor, Portfolio,Registration,Technology,Course_lesson_video,ProgramRequest,FeedbackMentor,FAQ
 
 
 @admin.register(Course)
@@ -24,3 +24,52 @@ class PortfolioAdmin(admin.ModelAdmin):
     list_filter = ('mentor',)
     search_fields = ('name',)
     ordering = ('name',)
+
+
+@admin.register(Registration)
+class RegistrationAdmin(admin.ModelAdmin):
+    list_display = ('name','phone_number','course')
+    list_filter = ('course',)
+    search_fields = ('name',)
+    ordering = ('name',)
+
+@admin.register(Technology)
+class TechnologyAdmin(admin.ModelAdmin):
+    list_display = ('title','course')
+    list_filter = ('course',)
+    search_fields = ('title',)
+    ordering = ('title','course')
+
+
+@admin.register(Course_lesson_video)
+class Course_lesson_videoAdmin(admin.ModelAdmin):
+    list_display = ('video','course')
+    list_filter = ('course',)
+    search_fields = ('course',)
+    ordering = ('course',)
+
+@admin.register(ProgramRequest)
+class ProgramRequestAdmin(admin.ModelAdmin):
+    list_display = ('name','phone_number')
+    list_filter = ('name',)
+    search_fields = ('name',)
+    ordering = ('name',)
+
+
+@admin.register(FeedbackMentor)
+class FeedbackMentorAdmin(admin.ModelAdmin):
+    list_display = ('full_name','course','mentor')
+    list_filter = ('course','mentor')
+    search_fields = ('full_name','course','mentor','mentor')
+    ordering = ('full_name',)
+
+@admin.register(FAQ)
+class FAQAdmin(admin.ModelAdmin):
+    list_display = ('title','description')
+    list_filter = ('title','description')
+    search_fields = ('title','description')
+    ordering = ('title',)
+
+
+
+
