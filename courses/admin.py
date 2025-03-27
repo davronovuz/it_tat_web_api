@@ -17,13 +17,13 @@ class MentorAdmin(admin.ModelAdmin):
     search_fields = ('first_name', 'last_name')
     ordering = ('first_name', 'last_name')
 
-
-@admin.register(Portfolio)
-class PortfolioAdmin(admin.ModelAdmin):
-    list_display = ('name', 'mentor', 'url')
-    list_filter = ('mentor',)
-    search_fields = ('name',)
-    ordering = ('name',)
+#
+# @admin.register(Portfolio)
+# class PortfolioAdmin(admin.ModelAdmin):
+#     list_display = ('name', 'mentor', 'url')
+#     list_filter = ('mentor',)
+#     search_fields = ('name',)
+#     ordering = ('name',)
 
 
 @admin.register(Registration)
@@ -35,10 +35,10 @@ class RegistrationAdmin(admin.ModelAdmin):
 
 @admin.register(Technology)
 class TechnologyAdmin(admin.ModelAdmin):
-    list_display = ('title','course')
-    list_filter = ('course',)
+    list_display = ('title',)
+    list_filter = ('title',)
     search_fields = ('title',)
-    ordering = ('title','course')
+    ordering = ('title',)
 
 
 @admin.register(Course_lesson_video)
@@ -58,9 +58,9 @@ class ProgramRequestAdmin(admin.ModelAdmin):
 
 @admin.register(FeedbackMentor)
 class FeedbackMentorAdmin(admin.ModelAdmin):
-    list_display = ('full_name','course','mentor')
-    list_filter = ('course','mentor')
-    search_fields = ('full_name','course','mentor','mentor')
+    list_display = ('full_name','mentor')
+    list_filter = ('mentor',)
+    search_fields = ('full_name','mentor','mentor')
     ordering = ('full_name',)
 
 @admin.register(FAQ)
