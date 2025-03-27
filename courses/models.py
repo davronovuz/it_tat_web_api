@@ -3,7 +3,16 @@ from django.db import models
 from utility.models import Utility
 
 
+class Technology(Utility):
+    title=models.CharField(max_length=255,null=True,blank=True,verbose_name="title")
+    image=models.ImageField(upload_to="Technoly/",null=True,blank=True)
 
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name="Technology"
+        verbose_name_plural="Technologies"
 
 
 class Course(Utility):
@@ -18,12 +27,26 @@ class Course(Utility):
     price_per_month = models.DecimalField(null=False,blank=False,verbose_name="Kursning narxi (oylik)",max_digits=10,decimal_places=2)
     discount = models.IntegerField(null=True,blank=True,verbose_name="Chegirma (%)")
     uses_ai = models.BooleanField(null=True,blank=True,verbose_name="Kursda AI foydalaniladimi ?",default=True)
-
+    technologies = models.ManyToManyField(Technology,verbose_name="Tehnologiyalar",related_name="courses")
     class Meta:
         verbose_name = "Kurs"
         verbose_name_plural = "Kurslar"
     def __str__(self):
         return self.title
+
+
+class Portfolio(Utility):
+    name = models.CharField(max_length=255,null=False,blank=False,verbose_name="Portfolio nomi")
+    image = models.ImageField(upload_to="portfolios",null=True,blank=True,verbose_name="Portfolio rasmi",
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'webp', 'svg'])])
+    description = models.TextField(null=True,blank=True,verbose_name="Portfolio haqida ma'lumot")
+    url= models.URLField(null=True,blank=True,verbose_name="Portfolio link")
+
+    class Meta:
+        verbose_name = "Portfolio"
+        verbose_name_plural = "Portfolios"
+    def __str__(self):
+        return self.name
 
 class Mentor(Utility):
     first_name = models.CharField(max_length=255,null=False,blank=False,verbose_name="Ismi")
@@ -34,7 +57,7 @@ class Mentor(Utility):
     courses = models.ManyToManyField(Course,verbose_name="Kurslar",related_name="mentors")
     experience_years = models.IntegerField(null=False,blank=False,verbose_name="Tajriba (yil)")
     students_count = models.IntegerField(null=False,blank=False,verbose_name="Mentorning mamnun o'quvchilar soni")
-
+    portfolios = models.ManyToManyField(Portfolio,verbose_name="Portfolios",related_name="mentors")
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
 
@@ -45,19 +68,7 @@ class Mentor(Utility):
         return f"{self.first_name} {self.last_name}"
 
 
-class Portfolio(Utility):
-    name = models.CharField(max_length=255,null=False,blank=False,verbose_name="Portfolio nomi")
-    image = models.ImageField(upload_to="portfolios",null=True,blank=True,verbose_name="Portfolio rasmi",
-                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'webp', 'svg'])])
-    description = models.TextField(null=True,blank=True,verbose_name="Portfolio haqida ma'lumot")
-    mentor = models.ForeignKey(Mentor, on_delete=models.CASCADE, related_name="portfolios")
-    url= models.URLField(null=True,blank=True,verbose_name="Portfolio link")
 
-    class Meta:
-        verbose_name = "Portfolio"
-        verbose_name_plural = "Portfolios"
-    def __str__(self):
-        return self.name
 
 class CourseLessonVideo(Utility):
     title= models.CharField(max_length=255,null=True,blank=True,verbose_name="Dars nomi")
@@ -75,14 +86,7 @@ class CourseLessonVideo(Utility):
         return f"{self.video}"
 
 
-class Technology(Utility):
-    title=models.CharField(max_length=255,null=True,blank=True,verbose_name="title")
-    image=models.ImageField(upload_to="Technoly/",null=True,blank=True)
-    course=models.ForeignKey(Course,on_delete=models.CASCADE,null=True,blank=True)
 
-    class Meta:
-        verbose_name="Technology"
-        verbose_name_plural="Technologies"
 
 
     def __str__(self):
