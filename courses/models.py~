@@ -88,7 +88,7 @@ class Feedback_Mentor(Utility):
 
 class Registration(Utility):
     name = models.CharField(max_length=255, null=False, blank=False, verbose_name="Ism")
-    phone_number = models.CharField(max_length=20, null=False, blank=False, verbose_name="Telefon raqami")
+    phone_number = models.CharField(max_length=255, null=False, blank=False, verbose_name="Telefon raqami")
     course = models.ForeignKey(Courses, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Kurs")
 
     class Meta:

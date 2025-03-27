@@ -71,43 +71,31 @@ class MentorsModelTest(TestCase):
 
 class Feedback_MentorModelTest(TestCase):
     def setUp(self):
-        self.course = Courses.objects.create(
-            title="Python",
-            description="Python kursi",
-            image="path/to/image.jpg",
-            duration_month=3,
-            weekly_hours=5,
-            duration_hours=10,
-            price_per_month=1000,
-            discount=10,
-            user_ai=True
-        )
-
         self.mentor = Mentors.objects.create(
             first_name="Azizbek",
             last_name="Hasanov",
             description="Python Developer",
             experience=5,
             image="path/to/image.jpg",
+            courses="Python",
             count_students=10
         )
 
         self.feedback = Feedback_Mentor.objects.create(
-            mentor=self.mentor,
-            course=self.course,
             full_name="John Doe",
+            mentor=self.mentor,
             video="path/to/video.mp4",
-            feedback_text="Great mentor!"
-        )
+            feedback_text="Great mentor!",
+            )
+        self.mentor.courses.add(self.course)
 
-    def test_feedback_mentor_creation(self):
-        self.assertEqual(self.feedback.mentor, self.mentor)
-        self.assertEqual(self.feedback.course, self.course)
+    def test_feedback_creation(self):
         self.assertEqual(self.feedback.full_name, "John Doe")
+        self.assertEqual(self.feedback.mentor, self.mentor)
         self.assertEqual(self.feedback.video, "path/to/video.mp4")
         self.assertEqual(self.feedback.feedback_text, "Great mentor!")
 
-    def test_feedback_mentor_str_method(self):
+    def test_feedback_str_method(self):
         self.assertEqual(str(self.feedback), "John Doe - Azizbek Hasanov")
 
 
