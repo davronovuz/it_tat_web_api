@@ -1,5 +1,5 @@
 from django.test import TestCase
-from courses.models import Courses,Mentors,Feedback_Mentor,Registration,Portfolio,FAQ,ProgramRequest,Technology
+from courses.models import Courses,Mentors,Feedback_Mentor,Registration,Portfolio,FAQ,ProgramRequest,Technology,Course_Video
 
 
 
@@ -225,3 +225,32 @@ class TechnologyModelTest(TestCase):
         self.assertEqual(self.technology.course, self.course)
         self.assertEqual(self.technology.image, "path/to/image.jpg")
         self.assertEqual(self.technology.course.title, "Python")
+
+class Course_VideoModelTest(TestCase):
+    def setUp(self):
+        self.course = Courses.objects.create(
+            title="Python",
+            description="Python kursi",
+            image="path/to/image.jpg",
+            duration_month=3,
+            weekly_hours=5,
+            duration_hours=10,
+            price_per_month=1000,
+            discount=10,
+            user_ai=True
+        )
+
+        self.video = Course_Video.objects.create(
+            title="Video nomi",
+            course=self.course,
+            video="path/to/video.mp4"
+        )
+
+    def test_video_creation(self):
+        self.assertEqual(self.video.title, "Video nomi")
+        self.assertEqual(self.video.course, self.course)
+        self.assertEqual(self.video.video, "path/to/video.mp4")
+        self.assertEqual(self.video.course.title, "Python")
+
+    def test_video_str_method(self):
+        self.assertEqual(str(self.video), "Video nomi")

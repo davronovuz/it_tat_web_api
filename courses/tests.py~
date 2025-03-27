@@ -1,7 +1,34 @@
 from django.test import TestCase
-from courses.models import Courses,Mentors,Feedback_Mentor,Registration,Portfolio,FAQ,ProgramRequest,Technology
+from courses.models import Courses,Mentors,Feedback_Mentor,Registration,Portfolio,FAQ,ProgramRequest,Technology,Course_Video
 
+class Course_VideoModelTest(TestCase):
+    def setUp(self):
+        self.course = Courses.objects.create(
+            title="Python",
+            description="Python kursi",
+            image="path/to/image.jpg",
+            duration_month=3,
+            weekly_hours=5,
+            duration_hours=10,
+            price_per_month=1000,
+            discount=10,
+            user_ai=True
+        )
 
+        self.video = Course_Video.objects.create(
+            title="Video nomi",
+            course=self.course,
+            video="path/to/video.mp4"
+        )
+
+    def test_video_creation(self):
+        self.assertEqual(self.video.title, "Video nomi")
+        self.assertEqual(self.video.course, self.course)
+        self.assertEqual(self.video.video, "path/to/video.mp4")
+        self.assertEqual(self.video.course.title, "Python")
+
+    def test_video_str_method(self):
+        self.assertEqual(str(self.video), "Video nomi")
 
 class CoursesModelTest(TestCase):
     def setUp(self):
@@ -71,31 +98,43 @@ class MentorsModelTest(TestCase):
 
 class Feedback_MentorModelTest(TestCase):
     def setUp(self):
+        self.course = Courses.objects.create(
+            title="Python",
+            description="Python kursi",
+            image="path/to/image.jpg",
+            duration_month=3,
+            weekly_hours=5,
+            duration_hours=10,
+            price_per_month=1000,
+            discount=10,
+            user_ai=True
+        )
+
         self.mentor = Mentors.objects.create(
             first_name="Azizbek",
             last_name="Hasanov",
             description="Python Developer",
             experience=5,
             image="path/to/image.jpg",
-            courses="Python",
             count_students=10
         )
 
         self.feedback = Feedback_Mentor.objects.create(
-            full_name="John Doe",
             mentor=self.mentor,
+            course=self.course,
+            full_name="John Doe",
             video="path/to/video.mp4",
-            feedback_text="Great mentor!",
-            )
-        self.mentor.courses.add(self.course)
+            feedback_text="Great mentor!"
+        )
 
-    def test_feedback_creation(self):
-        self.assertEqual(self.feedback.full_name, "John Doe")
+    def test_feedback_mentor_creation(self):
         self.assertEqual(self.feedback.mentor, self.mentor)
+        self.assertEqual(self.feedback.course, self.course)
+        self.assertEqual(self.feedback.full_name, "John Doe")
         self.assertEqual(self.feedback.video, "path/to/video.mp4")
         self.assertEqual(self.feedback.feedback_text, "Great mentor!")
 
-    def test_feedback_str_method(self):
+    def test_feedback_mentor_str_method(self):
         self.assertEqual(str(self.feedback), "John Doe - Azizbek Hasanov")
 
 

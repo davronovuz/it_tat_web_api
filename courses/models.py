@@ -100,7 +100,6 @@ class Registration(Utility):
         return f"{self.name} - {self.course.title}"
 
 
-
 class FAQ(Utility):
     title = models.CharField(max_length=255, null=False, blank=False, verbose_name="Savol")
     description = models.TextField(null=False, blank=False, verbose_name="Javob")
@@ -127,7 +126,6 @@ class ProgramRequest(Utility):
         return f"{self.name} - {self.phone_number}"
 
 
-
 class Technology(Utility):
     title = models.CharField(max_length=255, null=False, blank=False, verbose_name="Texnologiya nomi")
     image = models.ImageField(upload_to="technologies/", null=True, blank=True, verbose_name="Texnologiya rasmi",
@@ -142,3 +140,15 @@ class Technology(Utility):
     def __str__(self):
         return self.title
 
+class Course_Video(Utility):
+    title = models.CharField(max_length=255, null=False, blank=False, verbose_name="Video nomi")
+    video = models.FileField(upload_to="videos/", null=False, blank=False, verbose_name="Video")
+    course = models.ForeignKey(Courses, on_delete=models.CASCADE, verbose_name="Kurs", related_name="videos")
+
+    class Meta:
+        db_table = "course_videos"
+        verbose_name = "Video"
+        verbose_name_plural = "Videos"
+
+    def __str__(self):
+        return self.title
