@@ -1,7 +1,9 @@
 from rest_framework import viewsets
 from .models import Course, Mentor, Portfolio, CourseLessonVideo, Registration, FeedbackMentor, FAQ, ProgramRequest, Technology
-from .serializers import CourseSerializer, MentorSerializer, PortfolioSerializer, CourseLessonVideoSerializer,RegistrationSerializer, FeedbackMentorSerializer, FAQSerializer, ProgramRequestSerializer, TechnologySerializer
-
+from .serializers import (
+    CourseSerializer, MentorSerializer, PortfolioSerializer, CourseLessonVideoSerializer,
+    RegistrationSerializer, FeedbackMentorSerializer, FAQSerializer, ProgramRequestSerializer, TechnologySerializer
+)
 
 class TechnologyViewSet(viewsets.ModelViewSet):
     queryset = Technology.objects.all()
@@ -38,3 +40,4 @@ class FAQViewSet(viewsets.ModelViewSet):
 class ProgramRequestViewSet(viewsets.ModelViewSet):
     queryset = ProgramRequest.objects.all()
     serializer_class = ProgramRequestSerializer
+    

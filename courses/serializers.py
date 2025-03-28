@@ -1,0 +1,119 @@
+from rest_framework import serializers
+from .models import Course, Mentor, Portfolio, CourseLessonVideo, Registration, FeedbackMentor, FAQ, ProgramRequest, Technology
+
+
+
+class TechnologySerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Technology
+        fields = ('title', 'images', 'course', 'id')
+
+    def get_images(self, obj):
+        request = self.context.get('request')
+        if request:
+            return request.build_absolute_uri(obj.image.url)
+        return obj.image.url
+
+
+class CourseSerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField()
+    technologies = TechnologySerializer(many=True, read_only=True)
+    mentors = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Course
+        fields = "__all__"
+
+    def get_images(self, obj):
+        request = self.context.get('request')
+        if request:
+            return request.build_absolute_uri(obj.image.url)
+        return obj.image.url
+
+    def get_mentors(self, obj):
+        mentors = obj.mentors.all()
+        return MentorSerializer(mentors, many=True, context=self.context).data
+
+
+class PortfolioSerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Portfolio
+        fields = "__all__"
+
+    def get_images(self, obj):
+        request = self.context.get('request')
+        if request:
+            return request.build_absolute_uri(obj.image.url)
+        return obj.image.url
+
+
+class MentorSerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField()
+    portfolio = PortfolioSerializer(many=True, read_only=True)
+    courses = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Mentor
+        fields = "__all__"
+
+    def get_images(self, obj):
+        request = self.context.get('request')
+        if request:
+            return request.build_absolute_uri(obj.image.url)
+        return obj.image.url
+
+    def get_courses(self, obj):
+        courses = obj.courses.all()
+        return CourseSerializer(courses, many=True, context=self.context).data
+
+
+class RegistrationSerializer(serializers.ModelSerializer):
+    courses = CourseSerializer(read_only=True)
+
+    class Meta:
+        model = Registration
+        fields = "__all__"
+
+
+class FAQSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FAQ
+        fields = "__all__"
+
+
+class FeedbackMentorSerializer(serializers.ModelSerializer):
+    mentor = serializers.PrimaryKeyRelatedField(queryset=Mentor.objects.all())
+    video = serializers.SerializerMethodField()
+
+    class Meta:
+        model = FeedbackMentor
+        fields = "__all__"
+
+    def get_video(self, obj):
+        request = self.context.get('request')
+        video = obj.video
+        return request.build_absolute_uri(video.url)
+
+
+class CourseLessonVideoSerializer(serializers.ModelSerializer):
+    video = serializers.SerializerMethodField()
+    course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())
+
+    class Meta:
+        model = CourseLessonVideo
+        fields = "__all__"
+
+    def get_video(self, obj):
+        request = self.context.get('request')
+        video = obj.video
+        return request.build_absolute_uri(video.url)
+
+
+class ProgramRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProgramRequest
+        fields = "__all__"
