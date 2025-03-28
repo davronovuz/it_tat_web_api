@@ -1,107 +1,126 @@
 from rest_framework import serializers
-from .models import Course,Technology,Registration,FAQ,ProgramRequest,Mentor,\
-    FeedbackMentor,Registration,FAQ,ProgramRequest,CourseLessonVideo,Portfolio
-
-
+from .models import (
+    Technology, Course, Portfolio, Mentor, CourseLessonVideo,
+    FeedbackMentor, Registration, FAQ, ProgramRequest
+)
 
 class TechnologySerializer(serializers.ModelSerializer):
-    image=serializers.SerializerMethodField()
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Technology
-        fields = '__all__'
+        fields = ['id', 'title', 'image', 'image_url', 'created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at']
 
-    def get_image(self,obj):
-        request = self.context.get('request')
-        image = obj.image.url
-        return request.build_absolute_uri(image)
-
+    def get_image_url(self, obj):
+        if obj.image and hasattr(obj.image, 'url'):
+            request = self.context.get('request')
+            return request.build_absolute_uri(obj.image.url) if request else obj.image.url
+        return None
 
 class CourseSerializer(serializers.ModelSerializer):
-    image=serializers.SerializerMethodField()
-    # technologies=serializers.TechnologySerializer(many=True,read_only=True)
-
+    technologies = TechnologySerializer(many=True, read_only=True)
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Course
-        fields = '__all__'
+        fields = [
+            'id', 'title', 'description', 'duration_months', 'weekly_hours',
+            'duration_hours', 'start_date', 'image', 'image_url', 'price_per_month',
+            'discount', 'uses_ai', 'technologies', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['created_at', 'updated_at']
 
-    def get_image(self,obj):
-        request = self.context.get('request')
-        image = obj.image.url
-        return request.build_absolute_uri(image)
+    def get_image_url(self, obj):
+        if obj.image and hasattr(obj.image, 'url'):
+            request = self.context.get('request')
+            return request.build_absolute_uri(obj.image.url) if request else obj.image.url
+        return None
 
-# class PortfolioSerializer(serializers.ModelSerializer):
-#     image=serializers.SerializerMethodField()
-#     class Meta:
-#         model = Portfolio
-#         fields = '__all__'
-#
-#     def get_image(self,obj):
-#         request = self.context.get('request')
-#         image = obj.image.url
-#         return request.build_absolute_uri(image)
-#
-# class MentorSerializer(serializers.ModelSerializer):
-#     image=serializers.SerializerMethodField()
-#     portfolios=serializers.PortfolioSerializer(many=True,read_only=True)
-#     courses=serializers.CourseSerializer(many=True,read_only=True)
-#
-#     class Meta:
-#         model = Mentor
-#         fields = '__all__'
-#
-#     def get_image(self,obj):
-#         request = self.context.get('request')
-#         image = obj.image.url
-#         return request.build_absolute_uri(image)
-#
-#
-#
-# class RegistrationSerializer(serializers.ModelSerializer):
-#     courses=serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())
-#     class Meta:
-#         model = Registration
-#         fields = '__all__'
-#
-#
-# class FAQSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = FAQ
-#         fields = '__all__'
-#
-# class FeedbackMentorSerializer(serializers.ModelSerializer):
-#     mentor = serializers.PrimaryKeyRelatedField(queryset=Mentor.objects.all())
-#     video = serializers.SerializerMethodField()
-#
-#     class Meta:
-#         model = FeedbackMentor
-#         fields = '__all__'
-#
-#     def get_video(self,obj):
-#         request = self.context.get('request')
-#         video = obj.video.url
-#         return request.build_absolute_uri(video)
-#
-#
-#
-# class CourseLessonVideoSerializer(serializers.ModelSerializer):
-#     course=serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())
-#     video=serializers.SerializerMethodField()
-#
-#     class Meta:
-#         model = CourseLessonVideo
-#         fields = '__all__'
-#
-#
-#     def get_video(self,obj):
-#         request = self.context.get('request')
-#         video = obj.video.url
-#         return request.build_absolute_uri(video)
-#
-#
-# class ProgramRequestSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = ProgramRequest
-#         fields = '__all__'
-#
+class PortfolioSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Portfolio
+        fields = ['id', 'name', 'image', 'image_url', 'description', 'url', 'created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at']
+
+    def get_image_url(self, obj):
+        if obj.image and hasattr(obj.image, 'url'):
+            request = self.context.get('request')
+            return request.build_absolute_uri(obj.image.url) if request else obj.image.url
+        return None
+
+class MentorSerializer(serializers.ModelSerializer):
+    courses = CourseSerializer(many=True, read_only=True)
+    portfolios = PortfolioSerializer(many=True, read_only=True)
+    image_url = serializers.SerializerMethodField()
+    full_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Mentor
+        fields = [
+            'id', 'first_name', 'last_name', 'full_name', 'image', 'image_url',
+            'description', 'courses', 'experience_years', 'students_count',
+            'portfolios', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['created_at', 'updated_at']
+
+    def get_image_url(self, obj):
+        if obj.image and hasattr(obj.image, 'url'):
+            request = self.context.get('request')
+            return request.build_absolute_uri(obj.image.url) if request else obj.image.url
+        return None
+
+    def get_full_name(self, obj):
+        return obj.get_full_name()
+
+class CourseLessonVideoSerializer(serializers.ModelSerializer):
+    course = CourseSerializer(read_only=True)
+    video_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CourseLessonVideo
+        fields = ['id', 'title', 'course', 'video', 'video_url', 'created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at']
+
+    def get_video_url(self, obj):
+        if obj.video and hasattr(obj.video, 'url'):
+            request = self.context.get('request')
+            return request.build_absolute_uri(obj.video.url) if request else obj.video.url
+        return None
+
+class FeedbackMentorSerializer(serializers.ModelSerializer):
+    mentor = MentorSerializer(read_only=True)
+    video_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = FeedbackMentor
+        fields = ['id', 'mentor', 'full_name', 'video', 'video_url', 'feedback_text', 'created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at']
+
+    def get_video_url(self, obj):
+        if obj.video and hasattr(obj.video, 'url'):
+            request = self.context.get('request')
+            return request.build_absolute_uri(obj.video.url) if request else obj.video.url
+        return None
+
+class RegistrationSerializer(serializers.ModelSerializer):
+    course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())  # ID sifatida qabul qilish uchun
+
+    class Meta:
+        model = Registration
+        fields = ['id', 'name', 'phone_number', 'course', 'created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at']
+
+class FAQSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FAQ
+        fields = ['id', 'question', 'answer', 'created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at']
+
+class ProgramRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProgramRequest
+        fields = ['id', 'name', 'phone_number', 'created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at']

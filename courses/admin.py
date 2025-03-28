@@ -18,12 +18,11 @@ class MentorAdmin(admin.ModelAdmin):
     ordering = ('first_name', 'last_name')
 
 
-# @admin.register(Portfolio)
-# class PortfolioAdmin(admin.ModelAdmin):
-#     list_display = ('name', 'mentor', 'url')
-#     list_filter = ('mentor',)
-#     search_fields = ('name',)
-#     ordering = ('name',)
+@admin.register(Portfolio)
+class PortfolioAdmin(admin.ModelAdmin):
+    list_display = ('name', 'url')
+    search_fields = ('name',)
+    ordering = ('name',)
 
 
 @admin.register(Technology)

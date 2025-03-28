@@ -28,6 +28,7 @@ class Course(Utility):
     discount = models.IntegerField(null=True,blank=True,verbose_name="Chegirma (%)")
     uses_ai = models.BooleanField(null=True,blank=True,verbose_name="Kursda AI foydalaniladimi ?",default=True)
     technologies = models.ManyToManyField(Technology,verbose_name="Tehnologiyalar",related_name="courses")
+    
     class Meta:
         verbose_name = "Kurs"
         verbose_name_plural = "Kurslar"
@@ -89,8 +90,7 @@ class CourseLessonVideo(Utility):
 
 
 
-    def __str__(self):
-        return self.title
+
 
 
 class FeedbackMentor(Utility):
