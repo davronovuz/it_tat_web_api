@@ -8,7 +8,7 @@ class TechnologySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Technology
-        fields = '__all__'
+        fields = '__all__'  # Barcha maydonlarni o‘z ichiga oladi
 
     def get_image(self, obj):
         request = self.context.get('request')
@@ -19,8 +19,8 @@ class TechnologySerializer(serializers.ModelSerializer):
 
 class CourseSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
-    technologies = TechnologySerializer(many=True, read_only=True)
-    mentors = serializers.SerializerMethodField()
+    technologies = TechnologySerializer(many=True, read_only=True)  # 'texnologies' → 'technologies'
+    mentors = serializers.SerializerMethodField()  # MentorSerializer o‘rniga moslashtirildi
 
     class Meta:
         model = Course
@@ -33,7 +33,7 @@ class CourseSerializer(serializers.ModelSerializer):
         return None
 
     def get_mentors(self, obj):
-        mentors = obj.mentors.all()
+        mentors = obj.mentors.all()  # ManyToManyField orqali mentorlarni olish
         return MentorSerializer(mentors, many=True, context=self.context).data
 
 
@@ -53,7 +53,7 @@ class PortfolioSerializer(serializers.ModelSerializer):
 
 class MentorSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
-    portfolios = PortfolioSerializer(many=True, read_only=True)
+    portfolios = PortfolioSerializer(many=True, read_only=True)  # 'porfolios' → 'portfolios'
     courses = CourseSerializer(many=True, read_only=True)
 
     class Meta:

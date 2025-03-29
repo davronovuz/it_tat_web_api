@@ -1,32 +1,31 @@
 from django.test import TestCase
-from courses.models import Courses,Mentors,Feedback_Mentor,Registration,Portfolio,FAQ,ProgramRequest,Technology,Course_Video
-
+from courses.models import Course, Mentor, FeedbackMentor, Registration, Portfolio, FAQ, ProgramRequest, Technology, CourseLessonVideo
 
 
 class CoursesModelTest(TestCase):
     def setUp(self):
-        self.course = Courses.objects.create(
+        self.course = Course.objects.create(
             title="Python",
             description="Python kursi",
-            image="path/to/image.jpg",
-            duration_month=3,
+            duration_months=3,
             weekly_hours=5,
             duration_hours=10,
-            price_per_month=1000,
+            price_per_month=1000.00,
             discount=10,
-            user_ai=True
+            uses_ai=True,
+            image="courses/python.jpg"
         )
 
     def test_course_creation(self):
         self.assertEqual(self.course.title, "Python")
         self.assertEqual(self.course.description, "Python kursi")
-        self.assertEqual(self.course.image, "path/to/image.jpg")
-        self.assertEqual(self.course.duration_month, 3)
+        self.assertEqual(self.course.duration_months, 3)
         self.assertEqual(self.course.weekly_hours, 5)
         self.assertEqual(self.course.duration_hours, 10)
-        self.assertEqual(self.course.price_per_month, 1000)
+        self.assertEqual(self.course.price_per_month, 1000.00)
         self.assertEqual(self.course.discount, 10)
-        self.assertTrue(self.course.user_ai)
+        self.assertTrue(self.course.uses_ai)
+        self.assertEqual(self.course.image, "courses/python.jpg")
 
     def test_course_str_method(self):
         self.assertEqual(str(self.course), "Python")
@@ -34,24 +33,24 @@ class CoursesModelTest(TestCase):
 
 class MentorsModelTest(TestCase):
     def setUp(self):
-        self.course = Courses.objects.create(
+        self.course = Course.objects.create(
             title="Python",
             description="Python kursi",
-            image="path/to/image.jpg",
-            duration_month=3,
+            duration_months=3,
             weekly_hours=5,
             duration_hours=10,
-            price_per_month=1000,
+            price_per_month=1000.00,
             discount=10,
-            user_ai=True,
+            uses_ai=True,
+            image="courses/python.jpg"
         )
-        self.mentor = Mentors.objects.create(
+        self.mentor = Mentor.objects.create(
             first_name="Azizbek",
             last_name="Hasanov",
             description="Python Developer",
-            experience=5,
-            image="path/to/image.jpg",
-            count_students=10
+            experience_years=5,
+            image="mentors/azizbek.jpg",
+            students_count=10
         )
         self.mentor.courses.add(self.course)
 
@@ -59,11 +58,10 @@ class MentorsModelTest(TestCase):
         self.assertEqual(self.mentor.first_name, "Azizbek")
         self.assertEqual(self.mentor.last_name, "Hasanov")
         self.assertEqual(self.mentor.description, "Python Developer")
-        self.assertEqual(self.mentor.experience, 5)
-        self.assertEqual(self.mentor.image, "path/to/image.jpg")
+        self.assertEqual(self.mentor.experience_years, 5)
+        self.assertEqual(self.mentor.image, "mentors/azizbek.jpg")
+        self.assertEqual(self.mentor.students_count, 10)
         self.assertIn(self.course, self.mentor.courses.all())
-        self.assertEqual(self.mentor.count_students, 10)
-
 
     def test_mentor_str_method(self):
         self.assertEqual(str(self.mentor), "Azizbek Hasanov")
@@ -71,40 +69,36 @@ class MentorsModelTest(TestCase):
 
 class Feedback_MentorModelTest(TestCase):
     def setUp(self):
-        self.course = Courses.objects.create(
+        self.course = Course.objects.create(
             title="Python",
             description="Python kursi",
-            image="path/to/image.jpg",
-            duration_month=3,
+            duration_months=3,
             weekly_hours=5,
             duration_hours=10,
-            price_per_month=1000,
+            price_per_month=1000.00,
             discount=10,
-            user_ai=True
+            uses_ai=True,
+            image="courses/python.jpg"
         )
-
-        self.mentor = Mentors.objects.create(
+        self.mentor = Mentor.objects.create(
             first_name="Azizbek",
             last_name="Hasanov",
             description="Python Developer",
-            experience=5,
-            image="path/to/image.jpg",
-            count_students=10
+            experience_years=5,
+            image="mentors/azizbek.jpg",
+            students_count=10
         )
-
-        self.feedback = Feedback_Mentor.objects.create(
+        self.feedback = FeedbackMentor.objects.create(
             mentor=self.mentor,
-            course=self.course,
             full_name="John Doe",
-            video="path/to/video.mp4",
+            video="feedback_videos/john.mp4",
             feedback_text="Great mentor!"
         )
 
     def test_feedback_mentor_creation(self):
         self.assertEqual(self.feedback.mentor, self.mentor)
-        self.assertEqual(self.feedback.course, self.course)
         self.assertEqual(self.feedback.full_name, "John Doe")
-        self.assertEqual(self.feedback.video, "path/to/video.mp4")
+        self.assertEqual(self.feedback.video, "feedback_videos/john.mp4")
         self.assertEqual(self.feedback.feedback_text, "Great mentor!")
 
     def test_feedback_mentor_str_method(self):
@@ -113,58 +107,57 @@ class Feedback_MentorModelTest(TestCase):
 
 class RegistrationModelTest(TestCase):
     def setUp(self):
-        self.course = Courses.objects.create(
+        self.course = Course.objects.create(
             title="Python",
             description="Python kursi",
-            image="path/to/image.jpg",
-            duration_month=3,
+            duration_months=3,
             weekly_hours=5,
             duration_hours=10,
-            price_per_month=1000,
+            price_per_month=1000.00,
             discount=10,
-            user_ai=True
+            uses_ai=True,
+            image="courses/python.jpg"
         )
-
         self.registration = Registration.objects.create(
             name="John Doe",
             course=self.course,
-            phone_number="1234567890",
+            phone_number="+998901234567"
         )
 
     def test_registration_creation(self):
         self.assertEqual(self.registration.name, "John Doe")
         self.assertEqual(self.registration.course, self.course)
-        self.assertEqual(self.registration.phone_number, "1234567890")
+        self.assertEqual(self.registration.phone_number, "+998901234567")
         self.assertEqual(self.registration.course.title, "Python")
 
     def test_registration_str_method(self):
-        self.assertEqual(str(self.registration), "John Doe - Python")
+        self.assertEqual(str(self.registration), "John Doe")
 
 
 class PortfolioModelTest(TestCase):
     def setUp(self):
-        self.mentor = Mentors.objects.create(
+        self.mentor = Mentor.objects.create(
             first_name="Azizbek",
             last_name="Hasanov",
             description="Python Developer",
-            experience=5,
-            count_students=10
+            experience_years=5,
+            image="mentors/azizbek.jpg",
+            students_count=10
         )
-
         self.portfolio = Portfolio.objects.create(
-            mentor=self.mentor,
             name="My Portfolio",
-            image="path/to/image.jpg",
+            image="portfolios/my_portfolio.jpg",
             url="https://example.com/portfolio",
             description="This is my portfolio."
         )
+        self.mentor.portfolios.add(self.portfolio)
 
     def test_portfolio_creation(self):
-        self.assertEqual(self.portfolio.mentor, self.mentor)
         self.assertEqual(self.portfolio.name, "My Portfolio")
-        self.assertEqual(self.portfolio.image, "path/to/image.jpg")
+        self.assertEqual(self.portfolio.image, "portfolios/my_portfolio.jpg")
         self.assertEqual(self.portfolio.url, "https://example.com/portfolio")
         self.assertEqual(self.portfolio.description, "This is my portfolio.")
+        self.assertIn(self.portfolio, self.mentor.portfolios.all())
 
     def test_portfolio_str_method(self):
         self.assertEqual(str(self.portfolio), "My Portfolio")
@@ -173,84 +166,86 @@ class PortfolioModelTest(TestCase):
 class FAQModelTest(TestCase):
     def setUp(self):
         self.faq = FAQ.objects.create(
-            title="Question 1",
-            description="Answer 1"
+            question="Savol 1",
+            answer="Javob 1"
         )
 
     def test_faq_creation(self):
-        self.assertEqual(self.faq.title, "Question 1")
-        self.assertEqual(self.faq.description, "Answer 1")
+        self.assertEqual(self.faq.question, "Savol 1")
+        self.assertEqual(self.faq.answer, "Javob 1")
 
     def test_faq_str_method(self):
-        self.assertEqual(str(self.faq), "Question 1")
+        self.assertEqual(str(self.faq), "Savol 1 - Javob 1")
 
 
 class ProgramRequestModelTest(TestCase):
     def setUp(self):
         self.program_request = ProgramRequest.objects.create(
             name="John Doe",
-            phone_number="1234567890",
+            phone_number="+998901234567"
         )
 
     def test_program_request_creation(self):
         self.assertEqual(self.program_request.name, "John Doe")
-        self.assertEqual(self.program_request.phone_number, "1234567890")
+        self.assertEqual(self.program_request.phone_number, "+998901234567")
 
     def test_program_request_str_method(self):
-        self.assertEqual(str(self.program_request), "John Doe - 1234567890")
+        self.assertEqual(str(self.program_request), "John Doe")
 
 
 class TechnologyModelTest(TestCase):
     def setUp(self):
-        self.course = Courses.objects.create(
+        self.course = Course.objects.create(
             title="Python",
             description="Python kursi",
-            image="path/to/image.jpg",
-            duration_month=3,
+            duration_months=3,
             weekly_hours=5,
             duration_hours=10,
-            price_per_month=1000,
+            price_per_month=1000.00,
             discount=10,
-            user_ai=True
+            uses_ai=True,
+            image="courses/python.jpg"
         )
-
         self.technology = Technology.objects.create(
-            title="Python",
-            course=self.course,
-            image="path/to/image.jpg",
+            title="Python Tech",
+            image="Technoly/python.jpg"
         )
+        self.course.technologies.add(self.technology)
 
     def test_technology_creation(self):
-        self.assertEqual(self.technology.title, "Python")
-        self.assertEqual(self.technology.course, self.course)
-        self.assertEqual(self.technology.image, "path/to/image.jpg")
-        self.assertEqual(self.technology.course.title, "Python")
+        self.assertEqual(self.technology.title, "Python Tech")
+        self.assertEqual(self.technology.image, "Technoly/python.jpg")
+        self.assertIn(self.technology, self.course.technologies.all())
+
+    def test_technology_str_method(self):
+        self.assertEqual(str(self.technology), "Python Tech")
+
 
 class Course_VideoModelTest(TestCase):
     def setUp(self):
-        self.course = Courses.objects.create(
+        self.course = Course.objects.create(
             title="Python",
             description="Python kursi",
-            image="path/to/image.jpg",
-            duration_month=3,
+            duration_months=3,
             weekly_hours=5,
             duration_hours=10,
-            price_per_month=1000,
+            price_per_month=1000.00,
             discount=10,
-            user_ai=True
+            uses_ai=True,
+            image="courses/python.jpg"
         )
-
-        self.video = Course_Video.objects.create(
+        self.video = CourseLessonVideo.objects.create(
             title="Video nomi",
             course=self.course,
-            video="path/to/video.mp4"
+            video="lesson_videos/video.mp4"
         )
 
     def test_video_creation(self):
         self.assertEqual(self.video.title, "Video nomi")
         self.assertEqual(self.video.course, self.course)
-        self.assertEqual(self.video.video, "path/to/video.mp4")
+        self.assertEqual(self.video.video, "lesson_videos/video.mp4")
         self.assertEqual(self.video.course.title, "Python")
 
     def test_video_str_method(self):
-        self.assertEqual(str(self.video), "Video nomi")
+        self.assertEqual(str(self.video), "lesson_videos/video.mp4")
+

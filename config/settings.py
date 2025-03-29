@@ -39,14 +39,14 @@ INSTALLED_APPS = [
     'courses',
     # third-party apps
     'rest_framework',
-    'drf_yasg',
-    'corsheaders',  # django-cors-headers qo'shildi
+    'drf_yasg',  # drf_yasg allaqachon qo'shilgan
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  # CORS middleware qo'shildi
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -56,11 +56,6 @@ MIDDLEWARE = [
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:3000",
-#     "https://yourdomain.com",
-# ]
-
 CORS_ALLOW_METHODS = (
     "DELETE",
     "GET",
@@ -69,7 +64,6 @@ CORS_ALLOW_METHODS = (
     "POST",
     "PUT",
 )
-
 CORS_ALLOW_HEADERS = (
     "accept",
     "authorization",
@@ -78,9 +72,6 @@ CORS_ALLOW_HEADERS = (
     "x-csrftoken",
     "x-requested-with",
 )
-
-# Agar barcha domenlardan so'rov qabul qilmoqchi bo'lsangiz (test uchun):
-# CORS_ALLOW_ALL_ORIGINS = True  # Productionda ishlatish tavsiya etilmaydi
 
 ROOT_URLCONF = 'config.urls'
 
@@ -103,7 +94,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -112,7 +102,6 @@ DATABASES = {
 }
 
 # Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -129,22 +118,42 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'Asia/Tashkent'
-
 USE_I18N = True
-
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
 STATIC_URL = 'static/'
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Django REST Framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',  # Test uchun, productionda o'zgartirish kerak
+    ],
+}
+
+# drf_yasg settings (qo'shimcha sozlamalar)
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': True,  # Django admin autentifikatsiyasini qo'llab-quvvatlash
+    'SECURITY_DEFINITIONS': {
+        'Basic': {
+            'type': 'basic'
+        },
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+    'DEFAULT_INFO': 'config.urls.swagger_info',  # Swagger ma'lumotlari uchun URL
+}

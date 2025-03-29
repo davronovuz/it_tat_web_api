@@ -17,7 +17,6 @@ router.register('registrations', RegistrationViewSet, basename='registrations')
 router.register('faqs', FAQViewSet, basename='faqs')
 router.register(r'program_requests', ProgramRequestViewSet, basename='program_requests')
 
-
 urlpatterns = [
     path('', HomeAPIView.as_view(), name='home'),
     path('api/', include(router.urls)),
