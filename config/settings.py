@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-oq$px6tpz1l0u8k$@wt*b&4(c4s^xbj=&g0=@d^!=1p1as&0_i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -61,7 +61,8 @@ MIDDLEWARE = [
 
 
 # CORS sozlamalari
-CORS_ALLOWED_ORIGINS =True
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 
 CORS_ALLOW_METHODS = [
@@ -281,8 +282,8 @@ JAZZMIN_SETTINGS = {
     # UI Tweaks #
     #############
     # Relative paths to custom CSS/JS scripts (must be present in static files)
-    "custom_css": True,
-    "custom_js": True,
+    "custom_css": None,
+    "custom_js": None,
     # Whether to link font from fonts.googleapis.com (use custom_css to supply font otherwise)
     "use_google_fonts_cdn": True,
     # Whether to show the UI customizer on the sidebar
