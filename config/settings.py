@@ -63,7 +63,10 @@ MIDDLEWARE = [
 # CORS sozlamalari
 CORS_ALLOW_ALL_ORIGINS = True
 
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://ittat.uz',
+    'https://www.ittat.uz',
+]
 
 CORS_ALLOW_METHODS = [
     "DELETE",
