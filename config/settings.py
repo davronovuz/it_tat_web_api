@@ -78,6 +78,15 @@ CORS_ALLOW_METHODS = [
 ]
 
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+}
+
+
+
 CORS_ALLOW_HEADERS = [
     "accept",
     "authorization",
