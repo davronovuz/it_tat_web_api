@@ -86,10 +86,6 @@ CORS_ALLOW_HEADERS = [
 
 
 
-
-
-
-
 ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
@@ -153,14 +149,9 @@ USE_I18N = True
 USE_TZ = True
 
 
-
-SECURE_SSL_REDIRECT = True  # HTTP dan HTTPS ga yo‘naltirish
-SESSION_COOKIE_SECURE = True  # Cookie’lar faqat HTTPS’da ishlaydi
-CSRF_COOKIE_SECURE = True  # CSRF token faqat HTTPS’da ishlaydi
-
-
-# Static files (CSS, JavaScript, Images)
-
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
