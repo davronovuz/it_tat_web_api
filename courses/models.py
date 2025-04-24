@@ -58,7 +58,7 @@ class Mentor(Utility):
     courses = models.ManyToManyField(Course,verbose_name="Kurslar",related_name="mentors")
     experience_years = models.IntegerField(null=False,blank=False,verbose_name="Tajriba (yil)")
     students_count = models.IntegerField(null=False,blank=False,verbose_name="Mentorning mamnun o'quvchilar soni")
-    portfolios = models.ManyToManyField(Portfolio,verbose_name="Portfolios",related_name="mentors")
+    portfolios = models.ManyToManyField(Portfolio,verbose_name="Portfolios",related_name="mentors",null=True,blank=True)
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
 
