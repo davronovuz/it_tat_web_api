@@ -62,7 +62,7 @@ class MentorSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'first_name', 'last_name', 'full_name', 'image', 'image_url',
             'description', 'courses', 'experience_years', 'students_count',
-            'portfolios', 'created_at', 'updated_at'
+            'portfolios', 'created_at', 'updated_at','projects_part_count','achievements_count'
         ]
         read_only_fields = ['created_at', 'updated_at']
 
