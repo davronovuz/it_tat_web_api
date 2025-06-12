@@ -120,7 +120,6 @@ class FeedbackMentor(Utility):
 class Registration(Utility):
     name=models.CharField(max_length=255,null=False,blank=False,verbose_name="Ismn")
     phone_number=models.CharField(max_length=17, null=False,blank=False,unique=True)
-    course=models.ForeignKey(Course,on_delete=models.CASCADE,null=False,blank=False)
 
 
     class Meta:

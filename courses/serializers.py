@@ -106,11 +106,9 @@ class FeedbackMentorSerializer(serializers.ModelSerializer):
         return None
 
 class RegistrationSerializer(serializers.ModelSerializer):
-    course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())  # ID sifatida qabul qilish uchun
-
     class Meta:
         model = Registration
-        fields = ['id', 'name', 'phone_number', 'course', 'created_at', 'updated_at']
+        fields = ['id', 'name', 'phone_number', 'created_at', 'updated_at']
         read_only_fields = ['created_at', 'updated_at']
 
 class FAQSerializer(serializers.ModelSerializer):
