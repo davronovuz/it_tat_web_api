@@ -44,8 +44,7 @@ class FeedbackMentorAdmin(admin.ModelAdmin):
 
 @admin.register(Registration)
 class RegistrationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'phone_number', 'course')
-    list_filter = ('course',)
+    list_display = ('name', 'phone_number')
     search_fields = ('name',)
     ordering = ('name',)
 
