@@ -27,7 +27,7 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'description', 'duration_months', 'weekly_hours',
             'duration_hours', 'start_date', 'image', 'image_url', 'price_per_month',
-            'discount', 'uses_ai', 'technologies', 'created_at', 'updated_at'
+            'discount', 'uses_ai', 'technologies','uzb_junior_salary','uzb_middle_salary','uzb_senior_salary','global_junior_salary','global_middle_salary','global_senior_salary','created_at', 'updated_at'
         ]
         read_only_fields = ['created_at', 'updated_at']
 

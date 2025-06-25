@@ -28,6 +28,48 @@ class Course(Utility):
     discount = models.IntegerField(null=True,blank=True,verbose_name="Chegirma (%)")
     uses_ai = models.BooleanField(null=True,blank=True,verbose_name="Kursda AI foydalaniladimi ?",default=True)
     technologies = models.ManyToManyField(Technology,verbose_name="Tehnologiyalar",related_name="courses")
+    uzb_junior_salary = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="O'zbekistonda Junior daraja oylik maosh (USD)"
+    )
+    uzb_middle_salary = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="O'zbekistonda Middle daraja oylik maosh (USD)"
+    )
+    uzb_senior_salary = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="O'zbekistonda Senior daraja oylik maosh (USD)"
+    )
+    global_junior_salary = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Dunyo miqyosida Junior daraja oylik maosh (USD)"
+    )
+    global_middle_salary = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Dunyo miqyosida Middle daraja oylik maosh (USD)"
+    )
+    global_senior_salary = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Dunyo miqyosida Senior daraja oylik maosh (USD)"
+    )
     
     class Meta:
         verbose_name = "Kurs"
@@ -58,8 +100,8 @@ class Mentor(Utility):
     courses = models.ManyToManyField(Course,verbose_name="Kurslar",related_name="mentors")
     experience_years = models.IntegerField(null=False,blank=False,verbose_name="Tajriba (yil)")
     students_count = models.IntegerField(null=False,blank=False,verbose_name="Mentorning mamnun o'quvchilar soni")
-    projects_part_count = models.IntegerField(default=0,verbose_name="Mentorning qatnashgan loyihalar soni")
-    achievements_count = models.IntegerField(default=0,verbose_name="Mentorning yutuqlar soni")
+    projects_part_count = models.IntegerField(default=0,blank=True,verbose_name="Mentorning qatnashgan loyihalar soni")
+    achievements_count = models.IntegerField(default=0,blank=True,verbose_name="Mentorning yutuqlar soni")
     portfolios = models.ManyToManyField(Portfolio,verbose_name="Portfolios",related_name="mentors",null=True,blank=True)
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
