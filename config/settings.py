@@ -64,8 +64,8 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = True
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://ittat.uz',
-    'https://www.ittat.uz',
+    'https://api.it-tat.uz',
+    'https://www.api.it-tat.uz',
 ]
 
 CORS_ALLOW_METHODS = [
