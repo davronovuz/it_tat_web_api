@@ -5,7 +5,6 @@ services:
     build: .
     image: it_tat_backend:latest
     container_name: it_tat_backend
-    env_file: .env
     volumes:
       - static-data:/app/staticfiles
       - media-data:/app/media
