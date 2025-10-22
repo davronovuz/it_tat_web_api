@@ -1,3 +1,4 @@
+# backend/docker-compose.yml
 version: "3.9"
 
 services:
@@ -8,16 +9,22 @@ services:
     volumes:
       - static-data:/app/staticfiles
       - media-data:/app/media
-    ports:
-      - "127.0.0.1:8081:8000"   # faqat hostning localhost orqali kirish (host nginx proxy uchun)
     restart: unless-stopped
+
+    # faqat hostning localhost orqali ko'rinishi uchun 127.0.0.1:8081:8000
+    ports:
+      - "127.0.0.1:8081:8000"
+
+    environment:
+      - TZ=Asia/Tashkent
+      # - DJANGO_SETTINGS_MODULE=config.settings.production (sizdan kelgan bo'lsa qo'shing)
     networks:
       - app-network
-
-networks:
-  app-network:
-    driver: bridge
 
 volumes:
   static-data:
   media-data:
+
+networks:
+  app-network:
+    driver: bridge
